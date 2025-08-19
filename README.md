@@ -1,2 +1,18 @@
-# Aura-AI
-Aura AI is a Jupyter Notebook project for chatting with local LLMs via Ollama. Its core feature is the ability to change the AI's personality or "aura" on the fly using a library of swappable system prompts. It's designed for easy and private experimentation with different AI behaviors.
+Aura AI 🎭 (Jupyter Edition)Craft and chat with unique AI personalities directly within your Jupyter Notebook environment.Aura AI is a collection of Jupyter Notebooks that allows you to connect to a local Large Language Model (like Llama 3) via Ollama. Its standout feature is the ability to dynamically change the AI's personality, behavior, and expertise by simply choosing from a rich collection of pre-written system prompts.This project is designed for experimentation and fun, allowing you to explore how a simple prompt can transform your AI into a supportive friend, a sarcastic butler, a professional assistant, and more—all from the comfort of your notebook.✨ FeaturesJupyter Native: Built entirely with .ipynb notebooks, using the %run magic command to connect modules.Rich Persona Library: Comes with a prompts.ipynb file packed with a diverse collection of personalities to try out instantly.Local & Private: Runs 100% locally using Ollama. No API keys or internet connection are needed, and your conversations remain completely private.Conversation Memory: The chatbot remembers the context of the current session, allowing for natural, follow-up interactions.Easy to Customize: Creating your own AI personas is as simple as adding a new variable to the prompts notebook.🔧 PrerequisitesBefore you begin, you will need to have the following installed and running:Ollama: This tool is required to run large language models locally. Follow the installation instructions on their website.A Language Model: You need to have a model pulled through Ollama. This project was developed with llama3.2, but other models should work. To get it, run:ollama pull llama3
+Jupyter Notebook or JupyterLab: You need an environment to run the .ipynb files.🚀 Setup & InstallationDownload the Notebooks:Place chat_with_llama.ipynb and prompts.ipynb in the same directory.Install Dependencies:This project uses the requests library to communicate with the Ollama API. You can install it in your terminal or directly in a notebook cell:pip install requests
+Verify Your Configuration:Open the chat_with_llama.ipynb notebook and check the cell that defines the URL and MODEL variables. The default values should work for most standard Ollama installations.💬 How to UseThe best way to use this project is from a new, clean notebook (let's call it main.ipynb) which will act as your chat interface.Create main.ipynb:Create a new notebook in the same directory as the other files.Cell 1: Load the Prompts & Chat Client:In the first cell, use the %run command to execute the other notebooks. This will load all the persona variables and the llama() function into your main notebook's memory.# Load all available personas
+%run ./prompts.ipynb
+
+# Load the chat function and connect it to a chosen persona
+%run ./chat_with_llama.ipynb
+Cell 2: Choose Your Persona:In the second cell, set the system_prompt variable to one of the personas you loaded from prompts.ipynb. Then, re-initialize the chat history.# Choose the persona you want to chat with
+system_prompt = sarcastic_system_prompt   # Or girlfriend_system_prompt, etc.
+
+# Re-initialize the history with the new persona
+message_history = [
+    {"role": "system", "content": system_prompt},
+]
+
+print("🤖 Persona set to 'Cynic'. Ready to chat!")
+Cell 3 onwards: Start Chatting!In any new cell, call the llama() function with your message.llama("Hello there.")
+To continue the conversation, just use llama() in new cells.🎨 Customization: Create Your Own Personas!Open prompts.ipynb.Add a new cell and define a new variable (e.g., wizard_prompt).Write your custom persona description in the variable.Save the notebook.You can now select it in your main.ipynb file (e.g., system_prompt = wizard_prompt).
