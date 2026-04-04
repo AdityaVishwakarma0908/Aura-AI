@@ -1,97 +1,28 @@
-# Aura AI 🎭 (Jupyter Edition)
+# Gemini Flight Booking Agent ✈️
 
-**Craft and chat with unique AI personalities directly within your Jupyter Notebook environment.**
+An intelligent, tool-augmented chatbot built with the Gemini 1.5 Flash API. This agent can check ticket prices, book flights, and retrieve booking details directly from a local SQLite database using function calling.
 
-Aura AI is a collection of Jupyter Notebooks that allows you to connect to a local Large Language Model (like Llama 3) via Ollama. Its standout feature is the ability to dynamically change the AI's personality, behavior, and expertise by simply choosing from a rich collection of pre-written system prompts.
+## 🌟 Key Features
+- **Function Calling (Tool Use):** The agent autonomously decides when to query the database or book a flight based on user intent.
+- **Database Integration:** Persistent storage using SQLite (`flight_booking.db`) to manage ticket prices and passenger bookings.
+- **Interactive UI:** A clean web interface built with **Gradio** for real-time chatting.
+- **Modular Design:** Notebook-based architecture using `%run` for clean separation of concerns (tools, database, config, and UI).
 
-This project is designed for experimentation and fun, allowing you to explore how a simple prompt can transform your AI into a supportive friend, a sarcastic butler, a professional assistant, and more—all from the comfort of your notebook.
+## 📁 Project Structure
+- **`main.ipynb`**: The entry point. It initializes the Gradio interface and manages the chat loop.
+- **`tools_fun.ipynb`**: Contains the Python logic for database operations (Get/Set Price, Book Flight, Get Details).
+- **`tools_handle.ipynb`**: The "brain" that processes Gemini's tool call requests and maps them to Python functions.
+- **`db_config.ipynb`**: Handles the SQLite schema creation and connection setup.
+- **`config.ipynb`**: Manages environment variables and Gemini API client initialization.
+- **`imports.ipynb`**: Centralized location for all required libraries (OpenAI SDK, Gradio, dotenv).
 
----
+## 🛠️ Setup Instructions
 
-## ✨ Features
+### 1. Prerequisites
+- Python 3.10+
+- A Google Gemini API Key
 
-- **Jupyter Native:** Built entirely with `.ipynb` notebooks, using the `%run` magic command to connect modules.
-- **Rich Persona Library:** Comes with a `prompts.ipynb` file packed with a diverse collection of personalities to try out instantly.
-- **Local & Private:** Runs 100% locally using Ollama. No API keys or internet connection are needed, and your conversations remain completely private.
-- **Conversation Memory:** The chatbot remembers the context of the current session, allowing for natural, follow-up interactions.
-- **Easy to Customize:** Creating your own AI personas is as simple as adding a new variable to the prompts notebook.
-
----
-
-## 🔧 Prerequisites
-
-Before you begin, you will need to have the following installed and running:
-
-1.  **[Ollama](https://ollama.com/)**: This tool is required to run large language models locally. Follow the installation instructions on their website.
-2.  **A Language Model**: You need to have a model pulled through Ollama. This project was developed with `llama3.2`, but other models should work. To get it, run:
-    ```bash
-    ollama pull llama3
-    ```
-3.  **Jupyter Notebook or JupyterLab**: You need an environment to run the `.ipynb` files.
-
----
-
-## 🚀 Setup & Installation
-
-1.  **Download the Notebooks:**
-    Place `chat_with_llama.ipynb` and `prompts.ipynb` in the same directory.
-
-2.  **Install Dependencies:**
-    This project uses the `requests` library to communicate with the Ollama API. You can install it in your terminal or directly in a notebook cell:
-    ```bash
-    pip install requests
-    ```
-
-3.  **Verify Your Configuration:**
-    Open the `chat_with_llama.ipynb` notebook and check the cell that defines the `URL` and `MODEL` variables. The default values should work for most standard Ollama installations.
-
----
-
-## 💬 How to Use
-
-The best way to use this project is from a **new, clean notebook** (let's call it `main.ipynb`) which will act as your chat interface.
-
-1.  **Create `main.ipynb`:**
-    Create a new notebook in the same directory as the other files.
-
-2.  **Cell 1: Load the Prompts & Chat Client:**
-    In the first cell, use the `%run` command to execute the other notebooks. This will load all the persona variables and the `llama()` function into your main notebook's memory.
-    ```python
-    # Load all available personas
-    %run ./prompts.ipynb
-
-    # Load the chat function and connect it to a chosen persona
-    %run ./chat_with_llama.ipynb
-    ```
-
-3.  **Cell 2: Choose Your Persona:**
-    In the second cell, set the `system_prompt` variable to one of the personas you loaded from `prompts.ipynb`. Then, re-initialize the chat history.
-    ```python
-    # Choose the persona you want to chat with
-    system_prompt = sarcastic_system_prompt   # Or girlfriend_system_prompt, etc.
-
-    # Re-initialize the history with the new persona
-    message_history = [
-        {"role": "system", "content": system_prompt},
-    ]
-
-    print("🤖 Persona set to 'Cynic'. Ready to chat!")
-    ```
-
-4.  **Cell 3 onwards: Start Chatting!**
-    In any new cell, call the `llama()` function with your message.
-    ```python
-    llama("Hello there.")
-    ```
-
-    To continue the conversation, just use `llama()` in new cells.
-
----
-
-## 🎨 Customization: Create Your Own Personas!
-
-1.  Open `prompts.ipynb`.
-2.  Add a new cell and define a new variable (e.g., `wizard_prompt`).
-3.  Write your custom persona description in the variable.
-4.  Save the notebook.
-5.  You can now select it in your `main.ipynb` file (e.g., `system_prompt = wizard_prompt`).
+### 2. Environment Configuration
+Create a `.env` file in the root directory and add your API key:
+```env
+GOOGLE_API_KEY=your_gemini_api_key_here
